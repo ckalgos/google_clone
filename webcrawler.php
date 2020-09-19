@@ -1,9 +1,42 @@
 <?php
 
 include("DOMParser.php");
+include("databaseconfig.php");
 
 $crawled_links = array();
 $crawled_images = array();
+
+function insertDetailToDB($url,$title,$description,$keywords){
+
+    global $connection;
+
+    $query = $connection->prepare("INSERT INTO SITES(url,title,description,keywords)
+                                 VALUES(:url,:title,:description,:keywords)");
+
+
+   $query->bindParam(":url",$url);  
+   $query->bindParam(":title",$title);   
+   $query->bindParam(":description",$description);   
+   $query->bindParam(":keywords",$keywords);                      
+
+   return $query->execute();
+}
+
+function insertImageToDB($siteurl,$imageurl,$alt,$title){
+
+    global $connection;
+
+    $query = $connection->prepare("INSERT INTO IMAGES(siteurl,imageurl,alt,title)
+                                 VALUES(:siteurl,:imageurl,:alt,:title)");
+
+
+   $query->bindParam(":siteurl",$siteurl);  
+   $query->bindParam(":imageurl",$imageurl);   
+   $query->bindParam(":alt",$alt);   
+   $query->bindParam(":title",$title);                      
+
+   return $query->execute();
+}
 
 function formLinks($href,$url){
     $scheme = parse_url($url)['scheme'];
@@ -37,8 +70,6 @@ function extractDetails($url){
         return;
     }
 
-    echo "$title <br>";
-
     $description = "";
     $keywords = "";
 
@@ -52,7 +83,7 @@ function extractDetails($url){
         }
     }
 
-    echo "keywords : $keywords , description : $description <br>";
+    insertDetailToDB($url,$title,$description,$keywords);
 
     $imageTags = $parser->getImageTags();
 
@@ -70,7 +101,7 @@ function extractDetails($url){
 
        if(!in_array($src,$crawled_images)){
         $crawled_images[] = $src;
-        echo "image :$src <br>";
+        insertImageToDB($url,$src,$alt,$title);
        }
     }
 
