@@ -64,3 +64,72 @@
     cursor: pointer;
 }
 
+.headercontent{
+    display: flex;
+    align-content: center;
+}
+
+.headercontent .image_container{
+    width: 130px;
+    padding: 5px 20px;
+}
+
+.textbox_container{
+    flex : 1;
+}
+
+.textbox_container .search_box{
+    display: flex;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.search_textbox{
+    flex: 1;
+    outline: none;
+    border: none;
+}
+
+.search_textbtn{
+    background-color: #fff;
+    border: none;
+    display: flex;
+    align-items: center;
+}
+
+.search_textbtn img{
+    width: 25px;
+}
+
+.headerSection{
+    border-bottom: 2px solid #ebebeb;
+}
+
+.headerlist{
+    margin-left: 160px;
+}
+
+.tablist{
+    padding: 0;
+    margin: 0;
+}
+
+.tablist li{
+    display: inline-block;
+    color: #777;
+    font-size: 15px;
+    padding: 0 15px 10px 16px;
+}
+
+.tablist li a{
+    text-decoration: none;
+}
+
+.active{
+    border-bottom: 3px solid #1A73E8;
+}
+
+.active a{
+    font-weight: bold;
+    color :#1A73E8
+}

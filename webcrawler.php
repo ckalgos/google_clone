@@ -46,7 +46,7 @@ function formLinks($href,$url){
         $href = $scheme.":".$href;
     }else if(substr($href,0,1)== "/"){
         $href = $scheme."://".$host.$href;
-    }
+	}
 
     return $href;
 }
@@ -135,5 +135,5 @@ function crawlLinks($url){
     }
 }
 
-crawlLinks("https://www.microsoft.com/en-in/");
+crawlLinks("https://www.goal.com");
 ?>

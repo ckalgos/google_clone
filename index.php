@@ -12,7 +12,7 @@
                 <img src="assets/images/google_logo.png" />
             </div>
             <div class="search_container">
-                <form>
+                <form action="results.php" method="GET">
                     <input type="text" class="search_box" name="searchTerm" />
                     <input type="submit" class="search_btn" value="Search" />
                 </form>
