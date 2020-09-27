@@ -1,3 +1,12 @@
+<?php
+
+if(isset($_GET["searchTerm"]))
+{
+    $term = $_GET["searchTerm"];
+}
+
+$type = isset($_GET["searchType"]) ? $_GET["searchType"] : 'sites';
+?>
 <html>
 
 <head>
@@ -15,9 +24,10 @@
                     </a>
                 </div>
                 <div class="textbox_container">
-                    <form>
+                    <form action='results.php' method='GET'>
                         <div class="search_box">
-                            <input type="text" class="search_textbox" name="searchTerm" />
+                            <input value="<?php echo $type; ?>" type="hidden" name="searchType" />
+                            <input value="<?php echo $term; ?>" type="text" class="search_textbox" name="searchTerm" />
                             <button class="search_textbtn">
                                 <img src="assets/images/searchicon.png" />
                             </button>
@@ -27,11 +37,11 @@
             </div>
             <div class="headerlist">
                 <ul class="tablist">
-                    <li >
-                        <a href="">Sites</a>
+                    <li class="<?php echo $type == 'sites' ? 'active' : ''?>">
+                        <a href="<?php echo "results.php?searchTerm=$term&searchType=sites"?>">Sites</a>
                     </li>
-                    <li class="active">
-                        <a href="">Images</a>
+                    <li class="<?php echo $type == 'images' ? 'active' : ''?>">
+                        <a href="<?php echo "results.php?searchTerm=$term&searchType=images"?>">Images</a>
                     </li>
                 </ul>
             </div>
