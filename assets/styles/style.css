@@ -134,3 +134,41 @@
     font-weight: bold;
     color :#1A73E8
 }
+
+.searchCount {
+    margin-left: 160px;
+    font-size: 16px;
+    color: #70757a;
+}
+
+.site-results{
+    margin-left: 160px;
+}
+
+.site-result-container{    
+    margin-bottom: 25px;
+}
+
+.site-result-container .url{
+    font-size: 14px;
+}
+
+.site-result-container .title{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.site-result-container .title-url{
+    color: #1a0dab;
+    text-decoration: none;
+    font-size: 19px;
+    font-weight: normal;
+}
+
+.site-result-container .title-url:hover{
+    text-decoration: underline;
+}
+
+.site-result-container .description{
+    font-size: 14px;
+}

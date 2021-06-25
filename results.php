@@ -1,5 +1,7 @@
 <?php
 
+include("SitesSearch.php");
+
 if(isset($_GET["searchTerm"]))
 {
     $term = $_GET["searchTerm"];
@@ -47,6 +49,11 @@ $type = isset($_GET["searchType"]) ? $_GET["searchType"] : 'sites';
             </div>
         </div>
         <div class="resultsSection">
+        <?php 
+        $resultInstance = new SitesSearch();
+
+        echo $resultInstance->getResults($term)
+        ?>
         </div>
     </div>
 </body>
