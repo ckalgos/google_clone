@@ -8,6 +8,7 @@ if(isset($_GET["searchTerm"]))
 }
 
 $type = isset($_GET["searchType"]) ? $_GET["searchType"] : 'sites';
+$page = isset($_GET["page"]) ? $_GET["page"] : 1;
 ?>
 <html>
 
@@ -51,9 +52,52 @@ $type = isset($_GET["searchType"]) ? $_GET["searchType"] : 'sites';
         <div class="resultsSection">
         <?php 
         $resultInstance = new SitesSearch();
+        $results = $resultInstance->getResults($page,10,$term);
 
-        echo $resultInstance->getResults($term)
+        echo $results[1];
         ?>
+        </div>
+        <div class="pageSection">
+            <div class="pageButtons">
+                <div class="pageImageContainer">
+                    <img src="assets/images/page_start.png">
+                </div>
+                <?php                 
+                $maxPages = 10;
+                $pagesRequired = ceil($results[0]/10);
+                $pagesToShow = min($pagesRequired,$maxPages);
+                $currentPage = $page - ($maxPages/2);
+                if($currentPage <=0){
+                    $currentPage = 1;
+                }
+                if($currentPage + $pagesToShow >= $pagesRequired){
+                    $currentPage =  $pagesRequired - $pagesToShow + 1;
+                }
+                while($pagesToShow !=0){
+                    
+                    if($currentPage == $page){
+                        echo "<div class='pageImageContainer'>
+                                <img src='assets/images/page_selected.png'>
+                                <span class='pageNumber'>$currentPage</span>
+                            </div>";
+                    }
+                    else{
+                    echo "<div class='pageImageContainer'>
+                            <a href='results.php?searchType=$type&searchTerm=$term&page=$currentPage'>
+                                <img src='assets/images/page_other.png'>
+                                <span class='pageNumber'>$currentPage</span>
+                            </a>
+                        </div>";
+                    }
+
+                    $pagesToShow--;
+                    $currentPage++;
+                }
+                ?>
+                <div class="pageImageContainer">
+                    <img src="assets/images/page_end.png">
+                </div>
+            </div>
         </div>
     </div>
 </body>

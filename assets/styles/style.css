@@ -172,3 +172,33 @@
 .site-result-container .description{
     font-size: 14px;
 }
+
+.pageSection{
+    display: flex;
+    justify-content: center;
+}
+
+.pageButtons{
+    display: flex;
+}
+
+.pageImageContainer img{
+    height: 50px;
+}
+
+.pageImageContainer,
+.pageImageContainer a{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+}
+
+.pageNumber{
+    margin-top: 10px;
+    font-size:15px;
+}
+
+a .pageNumber{    
+    color:#4285f4;
+}

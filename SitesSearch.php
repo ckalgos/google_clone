@@ -2,7 +2,7 @@
 include("databaseconfig.php");
 class SitesSearch {
 
-    public function getResults($searchTerm){
+    public function getResults($page,$pageSize,$searchTerm){
 
         global $connection;
 
@@ -23,15 +23,20 @@ class SitesSearch {
 
         $results = "<p class='searchCount'>About $count results</p>";
 
+        $startingRecord = ($page-1)*$pageSize;
+
         $query1 = $connection->prepare("SELECT * FROM `sites` WHERE 
         url LIKE :searchTerm OR 
         title LIKE :searchTerm OR 
         keywords LIKE :searchTerm OR 
         description LIKE :searchTerm
         ORDER BY timesvisited DESC
+        LIMIT :startingRecord, :pageSize
         ");        
 
         $query1->bindParam("searchTerm",$searchTerm);
+        $query1->bindParam("startingRecord",$startingRecord,PDO::PARAM_INT);
+        $query1->bindParam("pageSize",$pageSize,PDO::PARAM_INT);
         $query1->execute();
 
         $records ="<div class='site-results'>";
@@ -54,7 +59,7 @@ class SitesSearch {
 
         $results .=  $records;
 
-        return $results;
+        return array( $count,$results);
     }
 }
 ?>
