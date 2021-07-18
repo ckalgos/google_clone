@@ -1,6 +1,7 @@
 <?php
 
 include("SitesSearch.php");
+include("ImagesSearch.php");
 
 if(isset($_GET["searchTerm"]))
 {
@@ -14,6 +15,7 @@ $page = isset($_GET["page"]) ? $_GET["page"] : 1;
 
 <head>
     <link rel="stylesheet" type="text/css" href="assets/styles/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha512-H9jrZiiopUdsLpg94A333EfumgUBpO9MdbxStdeITo+KEIMaNfHNvwyjjDJb+ERPaRS6DpyRlKbvPUasNItRyw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Results</title>
 </head>
 
@@ -51,8 +53,9 @@ $page = isset($_GET["page"]) ? $_GET["page"] : 1;
         </div>
         <div class="resultsSection">
         <?php 
-        $resultInstance = new SitesSearch();
-        $results = $resultInstance->getResults($page,10,$term);
+        $resultInstance = $type == 'images' ? new ImagesSearch() : new SitesSearch();
+        $resultRequired = $type == 'images' ? 20 : 10;
+        $results = $resultInstance->getResults($page,$resultRequired,$term);
 
         echo $results[1];
         ?>
@@ -64,7 +67,7 @@ $page = isset($_GET["page"]) ? $_GET["page"] : 1;
                 </div>
                 <?php                 
                 $maxPages = 10;
-                $pagesRequired = ceil($results[0]/10);
+                $pagesRequired = ceil($results[0]/$resultRequired);
                 $pagesToShow = min($pagesRequired,$maxPages);
                 $currentPage = $page - ($maxPages/2);
                 if($currentPage <=0){
@@ -100,6 +103,11 @@ $page = isset($_GET["page"]) ? $_GET["page"] : 1;
             </div>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha512-uURl+ZXMBrF4AwGaWmEetzrd+J5/8NRkWAvJx5sbPSSuOb0bZLqf+tOzniObO00BjHa/dD7gub9oCGMLPQHtQA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="assets/scripts/script.js"></script>
 </body>
 
 </html>

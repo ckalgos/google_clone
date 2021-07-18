@@ -1,16 +1,15 @@
 <?php 
 include("databaseconfig.php");
-class SitesSearch {
+class ImagesSearch {
 
     public function getResults($page,$pageSize,$searchTerm){
 
         global $connection;
 
-        $query = $connection->prepare("SELECT COUNT(1) AS TotalCount FROM `sites` WHERE 
-        url LIKE :searchTerm OR 
+        $query = $connection->prepare("SELECT COUNT(1) AS TotalCount FROM `images` WHERE 
+        imageurl LIKE :searchTerm OR 
         title LIKE :searchTerm OR 
-        keywords LIKE :searchTerm OR 
-        description LIKE :searchTerm");
+        alt LIKE :searchTerm");
 
         $searchTerm = "%".$searchTerm."%";
 
@@ -25,11 +24,10 @@ class SitesSearch {
 
         $startingRecord = ($page-1)*$pageSize;
 
-        $query1 = $connection->prepare("SELECT * FROM `sites` WHERE 
-        url LIKE :searchTerm OR 
+        $query1 = $connection->prepare("SELECT * FROM `images` WHERE 
+        imageurl LIKE :searchTerm OR 
         title LIKE :searchTerm OR 
-        keywords LIKE :searchTerm OR 
-        description LIKE :searchTerm
+        alt LIKE :searchTerm
         ORDER BY timesvisited DESC
         LIMIT :startingRecord, :pageSize
         ");        
@@ -39,21 +37,19 @@ class SitesSearch {
         $query1->bindParam("pageSize",$pageSize,PDO::PARAM_INT);
         $query1->execute();
 
-        $records ="<div class='site-results'>";
+        $records ="<div class='images-results'>";
 
         while($row = $query1->fetch(PDO::FETCH_ASSOC)){
-            $url = $row["url"];
-            $id = $row["Id"];
+            $imageurl = $row["imageurl"];
             $title = $row["title"];
-            $description = $row["description"];
-            $records .= "<div class='site-result-container'>
-            <span class='url'>$url</span>
-            <h3 class='title'>
-            <a class = 'title-url' href=$url data-id=$id>
-            $title
-            </a>
-            </h3>
-            <span class='description'>$description</span>            
+            $id = $row["Id"];
+            if(!$title){
+                $title = $row["alt"];
+            }
+            $records .= "<div class='image-result-container'>
+            <a href='$imageurl' data-fancybox='image' data-caption='$title' data-id=$id>
+            <img src='$imageurl'>
+            </a>          
             </div>";
         }
         $records .= "</div>";

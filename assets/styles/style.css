@@ -202,3 +202,8 @@
 a .pageNumber{    
     color:#4285f4;
 }
+
+.image-result-container img{
+    min-width: 80px;
+    max-width: 350px;
+}
